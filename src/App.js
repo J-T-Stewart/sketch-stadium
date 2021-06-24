@@ -1,7 +1,14 @@
 import React from "react";
 
+import Canvas from "./components/canvas/Canvas";
+
 const App = () => {
-  return <div>Sketch Stadium</div>;
+  return (
+    <div>
+      <div>Sketch Stadium</div>
+      <Canvas />
+    </div>
+  );
 };
 
 export default App;
