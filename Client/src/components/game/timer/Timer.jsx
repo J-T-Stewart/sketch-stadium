@@ -5,7 +5,7 @@ import { WaitingContainer, WaitingContainerInner } from "../waiting/styles";
 
 let socket;
 
-const Timer = ({ room }) => {
+const Timer = ({ startGame }) => {
   const [seconds, setSeconds] = useState(5);
   const ENDPOINT = "localhost:5000";
 
@@ -17,7 +17,7 @@ const Timer = ({ room }) => {
     if (seconds > 0) {
       setTimeout(() => setSeconds(seconds - 1), 1000);
     } else {
-      socket.emit("startGame", room);
+      startGame();
     }
   }, [ENDPOINT, seconds]);
 

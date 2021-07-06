@@ -8,9 +8,9 @@ const addUser = ({ id, name, room }) => {
     (user) => user.room === room && user.name === name
   );
 
-  if (existingUser) {
-    return { error: "Username is already taken" };
-  }
+  // if (existingUser) {
+  //   return { error: "Username is already taken" };
+  // }
 
   const user = { id, name, room };
 

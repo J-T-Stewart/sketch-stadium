@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { Button } from "@material-ui/core";
+import io from "socket.io-client";
 
 import {
   CanvasContainer,
@@ -12,26 +13,37 @@ import {
   DivButtons,
   DivRemoveBtns,
   DivGameInfo,
-  DivRound,
   DivTimer,
 } from "./styles";
 
-const Canvas = () => {
+let socket;
+const ENDPOINT = "localhost:5000";
+
+const endOfRound = (myCanvas, userInfo) => {
+  socket = io(ENDPOINT, {
+    transports: ["websocket", "polling", "flashsocket"],
+  });
+  socket.emit("saveDrawing", {
+    drawing: myCanvas.current.getSaveData(),
+    user: userInfo.user,
+    room: userInfo.room,
+  });
+};
+
+const Canvas = ({ image, userInfo }) => {
   const [brushColor, setBrushColor] = useState("#607d8b");
   const [brushSize, setBrushSize] = useState(12);
   const [canvasDisabled, setCanvasDisabled] = useState(false);
   const myCanvas = useRef(null);
 
-  const [seconds, setSeconds] = useState(30);
-  const [round, setRound] = useState(1);
+  const [seconds, setSeconds] = useState(10);
 
   useEffect(() => {
     if (seconds > 0) {
       setTimeout(() => setSeconds(seconds - 1), 1000);
     } else {
-      setRound(round + 1);
-      setSeconds(30);
-      myCanvas.current.clear();
+      setCanvasDisabled(true);
+      endOfRound(myCanvas, userInfo);
     }
   }, [seconds]);
 
@@ -39,9 +51,6 @@ const Canvas = () => {
     <CanvasContainer>
       <CanvasContainerInner>
         <DivGameInfo>
-          <DivRound>
-            <h1>Round {round}</h1>
-          </DivRound>
           <DivTimer>
             <h1>{seconds} seconds remain</h1>
           </DivTimer>
@@ -89,8 +98,8 @@ const Canvas = () => {
             <CanvasDraw
               ref={myCanvas}
               lazyRadius={0}
-              canvasWidth={700}
-              canvasHeight={450}
+              canvasWidth={308}
+              canvasHeight={560}
               hideGrid={true}
               //
               brushColor={brushColor}
@@ -99,6 +108,9 @@ const Canvas = () => {
             />
           </CanvasBorder>
           <ColorPicker onChange={(color) => setBrushColor(color.hex)} />
+          <CanvasBorder>
+            <img src={image} />
+          </CanvasBorder>
         </DivCanvas>
       </CanvasContainerInner>
     </CanvasContainer>

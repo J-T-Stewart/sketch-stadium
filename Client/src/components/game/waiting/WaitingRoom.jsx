@@ -7,7 +7,7 @@ const WaitingRoom = ({ numberOfUsers }) => {
     <WaitingContainer>
       <WaitingContainerInner>
         <h1>Waiting for players...</h1>
-        <h1>{numberOfUsers} / 4</h1>
+        <h1>{numberOfUsers} / 3</h1>
       </WaitingContainerInner>
     </WaitingContainer>
   );

@@ -40,6 +40,7 @@ export const DivTimer = styled.div`
 export const CanvasBorder = styled.div`
   border: solid;
   border-radius: 5px;
+  height: 560px;
 `;
 
 //
@@ -50,6 +51,7 @@ export const CanvasBorder = styled.div`
 
 export const DivCanvas = styled.div`
   display: flex;
+  justify-content: center;
   background-color: white;
 `;
 
@@ -62,13 +64,11 @@ export const DivSizeBtns = styled.div`
 `;
 
 export const DivButtons = styled.div`
-  width: 700px;
   display: flex;
   justify-content: space-between;
 `;
 
 export const DivGameInfo = styled.div`
-  width: 700px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;

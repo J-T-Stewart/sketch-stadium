@@ -5,14 +5,13 @@ import io from "socket.io-client";
 import WaitingRoom from "./waiting/WaitingRoom";
 import Timer from "./timer/Timer";
 import Canvas from "./canvas/Canvas";
+import Vote from "./voting/Voting";
+import Winner from "./winner/Winner";
 
 let socket;
 
 const Game = ({ location }) => {
   const [component, setComponent] = useState(<WaitingRoom numberOfUsers={1} />);
-  const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
-  const [users, setUsers] = useState([]);
   const ENDPOINT = "localhost:5000";
 
   useEffect(() => {
@@ -22,35 +21,44 @@ const Game = ({ location }) => {
       transports: ["websocket", "polling", "flashsocket"],
     });
 
-    setName(name);
-    setRoom(room);
-
     socket.emit("join", { name, room });
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
-    socket.on("roomState", ({ room, users, numberOfUsers, stage }) => {
-      console.log("Current Users: ", users);
-      console.log("Socket: ", socket.id);
-      switch (stage) {
-        case "wait":
-          setComponent(<WaitingRoom numberOfUsers={numberOfUsers} />);
+    socket.on("roomState", (roomInfo) => {
+      switch (roomInfo.roomState) {
+        case "waiting":
+          setComponent(<WaitingRoom numberOfUsers={roomInfo.users.length} />);
           break;
 
-        case "timer":
-          setComponent(<Timer room={room} />);
+        case "countdown":
+          setComponent(
+            <Timer
+              startGame={() =>
+                setComponent(
+                  <Canvas
+                    image={roomInfo.image}
+                    userInfo={{ user: socket.id, room: roomInfo.roomName }}
+                  />
+                )
+              }
+            />
+          );
           break;
 
-        case "game":
-          setComponent(<Canvas />);
+        case "voting":
+          setComponent(
+            <Vote
+              drawings={roomInfo.drawings}
+              image={roomInfo.image}
+              numberOfUsers={roomInfo.users.length}
+              userInfo={{ user: socket.id, room: roomInfo.roomName }}
+            />
+          );
           break;
 
-        case "vote":
-          setComponent(<></>);
-          break;
-
-        case "win":
-          setComponent(<></>);
+        case "victory":
+          setComponent(<Winner drawings={roomInfo.drawings} />);
           break;
       }
     });
