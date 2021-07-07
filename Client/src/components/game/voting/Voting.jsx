@@ -3,8 +3,7 @@ import io from "socket.io-client";
 import CanvasDraw from "react-canvas-draw";
 import { Button } from "@material-ui/core";
 
-import { WaitingContainer, WaitingContainerInner } from "../waiting/styles";
-import { CanvasBorder } from "../canvas/styles";
+import { VotingContainer, CanvasBorder } from "./styles";
 
 let socket;
 
@@ -30,80 +29,97 @@ const Vote = ({ drawings, image, numberOfUsers, userInfo }) => {
   }, [drawings]);
 
   return (
-    <WaitingContainer>
-      <WaitingContainerInner>
-        <h1>Cast your vote!</h1>
-      </WaitingContainerInner>
-      <CanvasBorder>
-        <img src={image} />
-      </CanvasBorder>
-      <CanvasDraw
-        ref={canvasOne}
-        lazyRadius={0}
-        canvasWidth={308}
-        canvasHeight={560}
-        hideGrid={true}
-        disabled={true}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        disabled={voted}
-        onClick={() => {
-          setVoted(true);
-          socket.emit("castVote", {
-            room: userInfo.room,
-            drawingIndex: 0,
-          });
-        }}
-      >
-        Vote
-      </Button>
-      <CanvasDraw
-        ref={canvasTwo}
-        lazyRadius={0}
-        canvasWidth={308}
-        canvasHeight={560}
-        hideGrid={true}
-        disabled={true}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        disabled={voted}
-        onClick={() => {
-          setVoted(true);
-          socket.emit("castVote", {
-            room: userInfo.room,
-            drawingIndex: 1,
-          });
-        }}
-      >
-        Vote
-      </Button>
-      <CanvasDraw
-        ref={canvasThree}
-        lazyRadius={0}
-        canvasWidth={308}
-        canvasHeight={560}
-        hideGrid={true}
-        disabled={true}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        disabled={voted}
-        onClick={() => {
-          setVoted(true);
-          socket.emit("castVote", {
-            room: userInfo.room,
-            drawingIndex: 2,
-          });
-        }}
-      >
-        Vote
-      </Button>
-    </WaitingContainer>
+    <VotingContainer>
+      <div>
+        <div>
+          <h1>Cast your vote!</h1>
+        </div>
+        <CanvasBorder>
+          <img src={image} />
+        </CanvasBorder>
+      </div>
+      <div>
+        <Button
+          style={{ margin: "20px" }}
+          variant="contained"
+          color="primary"
+          disabled={voted}
+          onClick={() => {
+            setVoted(true);
+            socket.emit("castVote", {
+              room: userInfo.room,
+              drawingIndex: 0,
+            });
+          }}
+        >
+          Vote
+        </Button>
+        <CanvasBorder>
+          <CanvasDraw
+            ref={canvasOne}
+            lazyRadius={0}
+            canvasWidth={308}
+            canvasHeight={560}
+            hideGrid={true}
+            disabled={true}
+          />
+        </CanvasBorder>
+      </div>
+      <div>
+        <Button
+          style={{ margin: "20px" }}
+          variant="contained"
+          color="primary"
+          disabled={voted}
+          onClick={() => {
+            setVoted(true);
+            socket.emit("castVote", {
+              room: userInfo.room,
+              drawingIndex: 1,
+            });
+          }}
+        >
+          Vote
+        </Button>
+        <CanvasBorder>
+          <CanvasDraw
+            ref={canvasTwo}
+            lazyRadius={0}
+            canvasWidth={308}
+            canvasHeight={560}
+            hideGrid={true}
+            disabled={true}
+          />
+        </CanvasBorder>
+      </div>
+      <div>
+        <Button
+          style={{ margin: "20px" }}
+          variant="contained"
+          color="primary"
+          disabled={voted}
+          onClick={() => {
+            setVoted(true);
+            socket.emit("castVote", {
+              room: userInfo.room,
+              drawingIndex: 2,
+            });
+          }}
+        >
+          Vote
+        </Button>
+        <CanvasBorder>
+          <CanvasDraw
+            ref={canvasThree}
+            lazyRadius={0}
+            canvasWidth={308}
+            canvasHeight={560}
+            hideGrid={true}
+            disabled={true}
+          />
+        </CanvasBorder>
+      </div>
+    </VotingContainer>
   );
 };
 

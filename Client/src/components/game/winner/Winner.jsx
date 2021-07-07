@@ -1,5 +1,7 @@
 import React from "react";
 
+import { WinnerContainer, WinnerContainerInner } from "./styles";
+
 const getWinner = (drawings) => {
   let currentWinner = "Everyone";
   let currentVotes = -1;
@@ -18,10 +20,12 @@ const getWinner = (drawings) => {
 
 const Winner = ({ drawings }) => {
   return (
-    <div>
-      <h1>The Winner Is</h1>
-      <h1>{getWinner(drawings)}</h1>
-    </div>
+    <WinnerContainer>
+      <WinnerContainerInner>
+        <h1>The winner is</h1>
+        <h1>{getWinner(drawings)}</h1>
+      </WinnerContainerInner>
+    </WinnerContainer>
   );
 };
 

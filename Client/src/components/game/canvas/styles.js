@@ -15,14 +15,15 @@ export const CanvasContainer = styled.div`
 `;
 
 export const CanvasContainerInner = styled.div`
-  width: 60%;
   background-color: white;
   border-radius: 10px;
+  padding: 20px;
 `;
 
 export const ColorPicker = styled(CirclePicker)`
   margin-left: 14px;
-  width: 10px !important;
+  margin-right: 14px !important;
+  width: 72px !important;
   height: 400px;
   display: flex;
   flex-wrap: wrap;

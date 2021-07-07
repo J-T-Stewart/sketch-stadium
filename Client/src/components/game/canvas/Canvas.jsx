@@ -36,7 +36,7 @@ const Canvas = ({ image, userInfo }) => {
   const [canvasDisabled, setCanvasDisabled] = useState(false);
   const myCanvas = useRef(null);
 
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(15);
 
   useEffect(() => {
     if (seconds > 0) {
